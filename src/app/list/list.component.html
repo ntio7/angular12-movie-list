@@ -1,0 +1,52 @@
+<section class="content" role="main">
+  <form appearance="outline" class="search-box">
+
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder=" חיפש סרט לפי כותרת" aria-label="חיפוש"
+        [ngModel]="searchQuery" name="searchQuery" (ngModelChange)="searchQuery = $event ; searchMovie($event)"
+        aria-describedby="basic-addon1">
+    </div>
+    <div class="btn-group mr-2" role="group">
+      <button type="button" (click)="displayFunc()" class="btn btn-primary">{{displayModTxt}}</button>
+      <button type="button" (click)="clearSerch()" class="btn btn-success">Clear search</button>
+      <button type="button" (click)="loadAllMovies()" class="btn btn-danger">Reload data from file</button>
+      <button type="button" (click)="sortMovies(!IsAsc)" class="btn btn-warning">{{sortMoviesTxt}}</button>
+    </div>
+  </form>
+
+  <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="Movies.length"></ngb-pagination>
+
+  <div [ngClass]="displayMod ? 'container11' : 'container'">
+    <div *ngFor="let movie of Movies | filter: searchQuery | slice: (page-1) * pageSize : page * pageSize; index as i" >
+      <div style="display: inline-flex;">
+        <div>
+          <img src="{{movie.Poster}}" class="movie-poster img-thumbnail text-center" alt="There is no image" 
+          routerLink="../details/{{i}}" />
+
+        </div>
+        <div>
+        
+
+            <div *ngIf="i == editTitle">
+              <input matInput class="form-control" [(ngModel)]="movie.Title" name="Title" (blur)="updateMovie(movie)">
+            </div>
+            <div *ngIf="i != editTitle" (click)="editfield(i)">
+              <button type="button" class="btn btn-light">{{movie.Title}}</button> </div>
+          <ul>
+            <li>Serial number: <b>{{ (page-1) * pageSize + i + 1}}</b></li>
+            <li>Type: {{movie.Type}}</li>
+            <li>Year: {{movie.Year|dateFormat}}</li>
+            <li>imdbID: {{movie.imdbID}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="noResult">
+      <div>
+        <div>
+          <h2>No movies found...</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
