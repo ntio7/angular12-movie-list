@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Movie } from './models/movie';
-import { Subject, Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,14 +13,8 @@ export class MessageService {
   constructor() { }
 
   sendMovies(movies: Movie[]) { 
-    
+
     this.MoviesSubject.next(movies);
-    this.movies = movies;
-
-  }
-
-  receiveMovie() {
-    this.MoviesSubject.next(this.movies);
   }
 
 }
