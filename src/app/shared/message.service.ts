@@ -12,8 +12,8 @@ export class MessageService {
 
   constructor() { }
 
-  sendMovies(movies: Movie[]) {
-    S
+  sendMovies(movies: Movie[]) { 
+    
     this.MoviesSubject.next(movies);
     this.movies = movies;
 
