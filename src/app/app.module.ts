@@ -14,6 +14,9 @@ import { HeaderComponent } from './header/header.component';
 // Pipes
 import { FilterPipe } from './shared/filter.pipe';
 import { DateFormat } from './shared/date-format.pipe';
+//services
+import { MessageService } from './shared/message.service';
+import { RestApiService } from './shared/rest-api.service';
 //bootstrap
 import {NgbPaginationModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
 
@@ -38,7 +41,10 @@ import {NgbPaginationModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    RestApiService, 
+    MessageService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

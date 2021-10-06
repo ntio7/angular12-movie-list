@@ -1,30 +1,23 @@
-import { Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Movie } from './models/movie';
 import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MessageService implements OnInit, OnDestroy {
+export class MessageService implements OnDestroy {
 
-  subject: Subject<Movie[]> = new Subject<Movie[]>()
-
+  subject: Subject<Movie[]> = new Subject<Movie[]>();
   movie: Movie = new Movie();
   movies: Movie[] = [];
 
   constructor() { }
 
-  ngOnInit() {
-  
-  }
-
-  sendMovies(movies: Movie[]) {  
-
+   sendMovies(movies: Movie[]) { 
     this.subject.subscribe(data => {
       this.movies = data;
-    });
-    
-    this.subject.next(movies);
+    });     
+    this.subject.next(movies);   
   }
 
   receiveMovie(movieId: number): Movie {
