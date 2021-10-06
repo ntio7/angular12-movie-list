@@ -1,41 +1,26 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Movie } from './models/movie';
-import { Subject } from 'rxjs';
-import { textChangeRangeIsUnchanged } from 'typescript';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MessageService implements OnDestroy {
+export class MessageService {
 
-  subject: Subject<Movie[]> = new Subject<Movie[]>();
-  movie: Movie = new Movie();
   movies: Movie[] = [];
-  sub: any = null;
+  MoviesSubject: BehaviorSubject<Movie[]> = new BehaviorSubject<Movie[]>(this.movies);
 
   constructor() { }
 
   sendMovies(movies: Movie[]) {
-    if (this.sub === null) {
-      this.sub = this.subject.subscribe(data => {
-        this.movies = data;
-      });
-    }
+    S
+    this.MoviesSubject.next(movies);
+    this.movies = movies;
 
-    this.subject.next(movies);
   }
 
-  receiveMovie(movieId: number): Movie {
-    return this.movies[movieId];
+  receiveMovie() {
+    this.MoviesSubject.next(this.movies);
   }
-
-  receiveMovies(): Movie[] {
-    return this.movies;
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
-  }
-
 
 }
