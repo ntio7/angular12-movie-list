@@ -1,4 +1,4 @@
-import { Component, ModuleWithProviders, OnInit } from '@angular/core';
+import { Component, ModuleWithProviders, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { RestApiService } from '../shared/rest-api.service';
 import { Movie } from '../shared/models/movie';
 import { MessageService } from '../shared/message.service';
@@ -9,7 +9,7 @@ import { MessageService } from '../shared/message.service';
   styleUrls: ['./list.component.sass'],
 })
 
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, OnDestroy {
   Movies: Movie[] = [];
   searchQuery = '';
   timer = null;
@@ -22,8 +22,11 @@ export class ListComponent implements OnInit {
   displayModTxt: string = 'Display as list ';
   page: number = 1;
   pageSize: number = 4;
+  subscribe: any;
+
 
   constructor(
+    private ref: ChangeDetectorRef,
     public restApi: RestApiService,
     private messageService: MessageService) {
     this.apiResponse = [];
@@ -31,6 +34,11 @@ export class ListComponent implements OnInit {
   ngOnInit() {
     // Get movies list
     this.loadAllMovies();
+    this.subscribe = this.messageService.pageSubject.subscribe(data => {
+      this.page = data;
+    });
+    this.ref.detach();
+    setInterval(() => { this.ref.detectChanges(); }, 3);
   }
 
   displayFunc() {
@@ -46,7 +54,6 @@ export class ListComponent implements OnInit {
   searchMovie(searchStr: string) {
     this.Movies = this.Movies;
   }
-
 
   loadAllMovies() {
     this.restApi.getAllMovies().subscribe((data) => {
@@ -82,5 +89,14 @@ export class ListComponent implements OnInit {
   updateMovie(movie: Movie) {
     this.restApi.updateMovies(movie);
   }
+
+  Currentpage() {
+    this.messageService.sendPage(this.page);
+  }
+
+  ngOnDestroy(): void {
+    this.subscribe.unsubscribe();
+  }
+
 }
 
