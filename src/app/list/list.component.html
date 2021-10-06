@@ -21,7 +21,7 @@
       <div style="display: inline-flex;">
         <div>
           <img src="{{movie.Poster}}" class="movie-poster img-thumbnail text-center" alt="There is no image" 
-          routerLink="../details/{{i}}" />
+          routerLink="../details/{{(page-1) * pageSize + i}}" />
 
         </div>
         <div>

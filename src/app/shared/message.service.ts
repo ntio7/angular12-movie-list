@@ -6,14 +6,12 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class MessageService {
-
-  movies: Movie[] = [];
-  MoviesSubject: BehaviorSubject<Movie[]> = new BehaviorSubject<Movie[]>(this.movies);
+  
+  MoviesSubject: BehaviorSubject<Movie[]> = new BehaviorSubject<Movie[]>([]);
 
   constructor() { }
 
   sendMovies(movies: Movie[]) { 
-
     this.MoviesSubject.next(movies);
   }
 
