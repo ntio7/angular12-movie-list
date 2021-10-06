@@ -38,7 +38,7 @@ export class ListComponent implements OnInit, OnDestroy {
       this.page = data;
     });
     this.ref.detach();
-    setInterval(() => { this.ref.detectChanges(); }, 100);
+    setTimeout(() => { this.ref.reattach();}, 50);
   }
 
   displayFunc() {
